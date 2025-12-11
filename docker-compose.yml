@@ -6,7 +6,7 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-lightrag}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lightrag}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
       POSTGRES_DB: ${POSTGRES_DB:-lightrag}
       POSTGRES_MULTIPLE_DATABASES: light_rag
     volumes:
@@ -27,11 +27,7 @@ services:
     image: ghcr.io/hkuds/lightrag:latest
     environment:
       POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: ${POSTGRES_USER:-lightrag}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-lightrag}
-      POSTGRES_DATABASE: ${POSTGRES_DATABASE:-lightrag}
-      DATABASE_URL: postgresql://${POSTGRES_USER:-lightrag}:${POSTGRES_PASSWORD:-lightrag}@postgres:5432/${POSTGRES_DATABASE:-lightrag}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-lightrag}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}@postgres:5432/${POSTGRES_DATABASE:-lightrag}
     build:
       context: .
       dockerfile: Dockerfile
